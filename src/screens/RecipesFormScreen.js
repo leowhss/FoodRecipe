@@ -4,39 +4,110 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import {widthPercentageToDP as wp,heightPercentageToDP as hp,} from "react-native-responsive-screen";
 
 export default function RecipesFormScreen({ route, navigation }) {
+
+  // const { recipeToEdit, recipeIndex, onrecipeEdited } = route.params || {};
+
+  // const [title, setTitle] = useState(recipeToEdit ? recipeToEdit.title : "");
+  // const [image, setImage] = useState(recipeToEdit ? recipeToEdit.image : "");
+  // const [description, setDescription] = useState(
+  //   recipeToEdit ? recipeToEdit.description : ""
+  // );
+  
   const { recipeToEdit, recipeIndex, onrecipeEdited } = route.params || {};
-  const [title, setTitle] = useState(recipeToEdit ? recipeToEdit.title : "");
-  const [image, setImage] = useState(recipeToEdit ? recipeToEdit.image : "");
-  const [description, setDescription] = useState(
-    recipeToEdit ? recipeToEdit.description : ""
-  );
+  const [recipeName, setTitle] = useState(recipeToEdit ? recipeToEdit.recipeName : "");
+  const [recipeImage, setImage] = useState(recipeToEdit ? recipeToEdit.recipeImage : "");
+  const [recipeDescription, setDescription] = useState(recipeToEdit ? recipeToEdit.recipeDescription : "");
 
   const saverecipe = async () => {
- 
+    try {
+      //New recipe object
+      const newrecipe = { recipeName, recipeImage, recipeDescription, idFood: recipeToEdit?.idFood || Date.now().toString() };
+
+      //Getting the custom recipes from storage
+      const storedData = await AsyncStorage.getItem("customrecipes");
+      
+      //If stored data exist then saves it into recipes as an object, otherwise, it saves an empty array
+      let recipes = storedData ? JSON.parse(storedData) : [];
+
+      //If there is a recipe coming from the prop it triggers the update
+      if (recipeToEdit) {
+        
+        // const recipeIndex = recipes.findIndex(
+        //   (r) => r.title === recipeToEdit.recipeName
+        // );
+
+        const index = recipes.findIndex(recipe => recipe.recipeName === recipeToEdit.recipeName);
+
+        console.log("recipeIndex >")
+        // console.log(recipeToEdit.idFood);
+        console.log(index);
+
+        console.log("save_recipe >>");
+        console.log({recipeToEdit})
+
+        recipeToEdit.recipeName = recipeName;
+        recipeToEdit.recipeImage = recipeImage;
+        recipeToEdit.recipeDescription = recipeDescription;
+
+        recipes[index] = recipeToEdit;
+
+        console.log("Edited recipes");
+        console.log(recipes);
+
+        // if (recipeIndex !== -1) {
+        //   recipes[recipeIndex] = newrecipe;
+        // }
+
+        // if (typeof onrecipeEdited === "function") {
+        //   onrecipeEdited();
+        // }
+
+        //else it pushes a new one in the array  
+      } else {
+        recipes.push(newrecipe);
+      }
+      //Saves recipes in storage
+      await AsyncStorage.setItem("customrecipes", JSON.stringify(recipes));
+
+      navigation.goBack();
+    } catch (error) {
+      console.error("Error saving recipe:", error);
+    }
   };
+
+  console.log("view_recipe >>");
+  console.log(recipeToEdit);
 
   return (
     <View style={styles.container}>
+
       <TextInput
         placeholder="Title"
-        value={title}
+        value={recipeName}
         onChangeText={setTitle}
         style={styles.input}
       />
       <TextInput
         placeholder="Image URL"
-        value={image}
+        value={recipeImage}
         onChangeText={setImage}
         style={styles.input}
       />
-      {image ? (
+      {/* {image ? (
         <Image source={{ uri: image }} style={styles.image} />
       ) : (
         <Text style={styles.imagePlaceholder}>Upload Image URL</Text>
-      )}
+      )} */}
+
+      {recipeImage ? (
+          <Image source={{ uri: recipeImage }} style={styles.image} />
+        ) : (
+          <Text style={styles.imagePlaceholder}>Upload Image URL</Text>
+        )}
+
       <TextInput
         placeholder="Description"
-        value={description}
+        value={recipeDescription}
         onChangeText={setDescription}
         multiline={true}
         numberOfLines={4}
