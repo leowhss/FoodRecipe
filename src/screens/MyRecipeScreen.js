@@ -36,12 +36,6 @@ export default function MyRecipeScreen() {
 
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   const fetchrecipes = async () => {};
-
-  //   fetchrecipes();
-  // }, []);
-
   const fetchrecipes = async () => {
     try {
       const storedData = await AsyncStorage.getItem("customrecipes");
@@ -103,6 +97,9 @@ export default function MyRecipeScreen() {
 
   return (
     <View style={styles.container}>
+
+      <Text style={styles.PageTitle}>My Food</Text>
+
       {/* Back Button */}
       <TouchableOpacity
         onPress={() => navigation.goBack()}
@@ -173,6 +170,12 @@ const styles = StyleSheet.create({
     padding: wp(4),
     backgroundColor: "#F9FAFB",
   },
+  PageTitle: {
+    fontSize: hp(3.2),
+    color: "#4F75FF",
+    textDecorationLine: 'underline',
+    textAlign:"center",
+  },
   backButton: {
     marginBottom: hp(1.5),
   },
@@ -183,16 +186,19 @@ const styles = StyleSheet.create({
   addButton: {
     backgroundColor: "#4F75FF",
     padding: wp(0.7),
+    justifyContent: "center",
     alignItems: "center",
     borderRadius: 5,
     width: 300,
-    marginLeft: 500,
+    // marginLeft: 500,
     // marginBottom: hp(2),
   },
   addButtonText: {
     color: "#fff",
     fontWeight: "600",
     fontSize: hp(2.2),
+    // alignItems: "center",
+    textAlign: 'center'
   },
   scrollContainer: {
     paddingBottom: hp(2),
@@ -211,7 +217,7 @@ const styles = StyleSheet.create({
   },
   recipeCard: {
     width: 400, // Make recipe card width more compact
-    height: 300, // Adjust the height of the card to fit content
+    height: 500, // Adjust the height of the card to fit content
     backgroundColor: "#fff",
     padding: wp(3),
     borderRadius: 8,

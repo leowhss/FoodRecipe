@@ -13,8 +13,11 @@ export default function Recipe({ categories, foods }) {
   return (
     <View style={styles.container}>
       <View testID="recipesDisplay">
-      <FlatList numColumns={2} data={foods} keyExtractor={(item) => item.idFood.toString()} 
-          renderItem={renderItem}>
+      <FlatList numColumns={2} 
+                data={foods} keyExtractor={(item) => item.idFood.toString()} 
+                renderItem={renderItem} 
+                showsVerticalScrollIndicator={true} 
+                contentContainerStyle={{ flexGrow: 0 }}>
       </FlatList>
       </View>
     </View>
@@ -23,15 +26,13 @@ export default function Recipe({ categories, foods }) {
 
 const ArticleCard = ({ item, index, navigation }) => {
   return (
-    <View
-      style={[styles.cardContainer, { paddingLeft: 20, paddingRight: 15}]} testID="articleDisplay"
-    >
+
+    <View style={[styles.cardContainer, { paddingLeft: 20, paddingRight: 15}]} testID="articleDisplay">
       <TouchableOpacity onPress={() => navigation.navigate("RecipeDetail", item)}>
         <Image style={styles.articleImage} source={{ uri: item.recipeImage }}></Image>
         <Text style={styles.articleText}>{item.recipeName}</Text>
         <Text style={styles.articleDescription}>{item.cookingDescription}</Text>
       </TouchableOpacity>
-
     </View>
   );
 };
@@ -52,7 +53,8 @@ const styles = StyleSheet.create({
   },
   cardContainer: {
     justifyContent: "center",
-    marginBottom: hp(1.5),
+    marginBottom: hp(1.5),    
+    height: "140px",
     flex: 1, // Allows cards to grow and fill space evenly
   },
   articleImage: {

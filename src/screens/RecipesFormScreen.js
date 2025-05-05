@@ -4,14 +4,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import {widthPercentageToDP as wp,heightPercentageToDP as hp,} from "react-native-responsive-screen";
 
 export default function RecipesFormScreen({ route, navigation }) {
-
-  // const { recipeToEdit, recipeIndex, onrecipeEdited } = route.params || {};
-
-  // const [title, setTitle] = useState(recipeToEdit ? recipeToEdit.title : "");
-  // const [image, setImage] = useState(recipeToEdit ? recipeToEdit.image : "");
-  // const [description, setDescription] = useState(
-  //   recipeToEdit ? recipeToEdit.description : ""
-  // );
   
   const { recipeToEdit, recipeIndex, onrecipeEdited } = route.params || {};
   const [recipeName, setTitle] = useState(recipeToEdit ? recipeToEdit.recipeName : "");
@@ -32,10 +24,6 @@ export default function RecipesFormScreen({ route, navigation }) {
       //If there is a recipe coming from the prop it triggers the update
       if (recipeToEdit) {
         
-        // const recipeIndex = recipes.findIndex(
-        //   (r) => r.title === recipeToEdit.recipeName
-        // );
-
         const index = recipes.findIndex(recipe => recipe.recipeName === recipeToEdit.recipeName);
 
         console.log("recipeIndex >")
@@ -53,14 +41,6 @@ export default function RecipesFormScreen({ route, navigation }) {
 
         console.log("Edited recipes");
         console.log(recipes);
-
-        // if (recipeIndex !== -1) {
-        //   recipes[recipeIndex] = newrecipe;
-        // }
-
-        // if (typeof onrecipeEdited === "function") {
-        //   onrecipeEdited();
-        // }
 
         //else it pushes a new one in the array  
       } else {
@@ -93,11 +73,6 @@ export default function RecipesFormScreen({ route, navigation }) {
         onChangeText={setImage}
         style={styles.input}
       />
-      {/* {image ? (
-        <Image source={{ uri: image }} style={styles.image} />
-      ) : (
-        <Text style={styles.imagePlaceholder}>Upload Image URL</Text>
-      )} */}
 
       {recipeImage ? (
           <Image source={{ uri: recipeImage }} style={styles.image} />

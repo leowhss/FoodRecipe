@@ -734,7 +734,7 @@ export default function HomeScreen() {
                             handleChangeCategory={handleChangeCategory}></Categories>
         </View>
 
-        <View testID="foodList">
+        <View testID="foodList" style={{ flex: 1, height: '5000px' }}>
           <Recipe categories={categories} foods={allFood}></Recipe>
         </View>
       </ScrollView>
