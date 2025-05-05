@@ -58,8 +58,10 @@ export default function MyRecipeScreen() {
   };
 
   // const handlerecipeClick = (recipe) => {};
-  const handlerecipeClick = (recipe) => {
-    navigation.navigate("CustomRecipesScreen", recipe);
+  const handlerecipeClick = (_recipe) => {
+    console.log("MRS->");
+    console.log(_recipe);
+    navigation.navigate("CustomRecipesScreen", _recipe);
   };
 
   // const deleterecipe = async (index) => {};
@@ -131,6 +133,14 @@ export default function MyRecipeScreen() {
                   <Text style={styles.recipeTitle}>{recipe.recipeName}</Text>
                   <Text style={styles.recipeDescription} testID="recipeDescp">
                     {recipe.recipeDescription ? `${recipe.recipeDescription.slice(0, 50)}...` : ""}
+                  </Text>
+
+                  <Text style={styles.recipeIngredients} testID="recipeIngredients">
+                    {recipe.recipeIngredients ? `${recipe.recipeIngredients.slice(0, 50)}...` : ""}
+                  </Text>
+
+                  <Text style={styles.recipeInstructions} testID="recipeInstructions">
+                    {recipe.recipeInstructions ? `${recipe.recipeInstructions.slice(0, 50)}...` : ""}
                   </Text>
 
                 </TouchableOpacity>

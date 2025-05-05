@@ -10,6 +10,9 @@ export default function RecipesFormScreen({ route, navigation }) {
   const [recipeImage, setImage] = useState(recipeToEdit ? recipeToEdit.recipeImage : "");
   const [recipeDescription, setDescription] = useState(recipeToEdit ? recipeToEdit.recipeDescription : "");
 
+  const [recipeIngredients, setIngredients] = useState(recipeToEdit ? recipeToEdit.recipeIngredients : "");
+  const [recipeInstructions, setInstructions] = useState(recipeToEdit ? recipeToEdit.recipeInstructions : "");
+
   const saverecipe = async () => {
     try {
       //New recipe object
@@ -26,16 +29,18 @@ export default function RecipesFormScreen({ route, navigation }) {
         
         const index = recipes.findIndex(recipe => recipe.recipeName === recipeToEdit.recipeName);
 
-        console.log("recipeIndex >")
+        // console.log("recipeIndex >")
         // console.log(recipeToEdit.idFood);
-        console.log(index);
+        // console.log(index);
 
-        console.log("save_recipe >>");
-        console.log({recipeToEdit})
+        // console.log("save_recipe >>");
+        // console.log({recipeToEdit})
 
         recipeToEdit.recipeName = recipeName;
         recipeToEdit.recipeImage = recipeImage;
         recipeToEdit.recipeDescription = recipeDescription;
+        recipeToEdit.recipeIngredients = recipeIngredients;
+        recipeToEdit.recipeInstructions = recipeInstructions;
 
         recipes[index] = recipeToEdit;
 
@@ -60,13 +65,15 @@ export default function RecipesFormScreen({ route, navigation }) {
 
   return (
     <View style={styles.container}>
-
+      <Text style={styles.title}>Name</Text>
       <TextInput
         placeholder="Title"
         value={recipeName}
         onChangeText={setTitle}
         style={styles.input}
       />
+
+      <Text style={styles.title}>Image</Text>
       <TextInput
         placeholder="Image URL"
         value={recipeImage}
@@ -80,6 +87,7 @@ export default function RecipesFormScreen({ route, navigation }) {
           <Text style={styles.imagePlaceholder}>Upload Image URL</Text>
         )}
 
+      <Text style={styles.title}>Description</Text>
       <TextInput
         placeholder="Description"
         value={recipeDescription}
@@ -88,6 +96,27 @@ export default function RecipesFormScreen({ route, navigation }) {
         numberOfLines={4}
         style={[styles.input, { height: hp(20), textAlignVertical: "top" }]}
       />
+
+      <Text style={styles.title}>Ingredients List</Text>
+      <TextInput
+        placeholder="Ingredients"
+        value={recipeIngredients}
+        onChangeText={setIngredients}
+        multiline={true}
+        numberOfLines={4}
+        style={[styles.input, { height: hp(20), textAlignVertical: "top" }]} 
+      />        
+
+      <Text style={styles.title}>Step-by-step Instructions</Text>
+      <TextInput
+        placeholder="Instructions"
+        value={recipeInstructions}
+        onChangeText={setInstructions}
+        multiline={true}
+        numberOfLines={4}
+        style={[styles.input, { height: hp(20), textAlignVertical: "top" }]} 
+      />     
+
       <TouchableOpacity onPress={saverecipe} style={styles.saveButton}>
         <Text style={styles.saveButtonText}>Save recipe</Text>
       </TouchableOpacity>
@@ -100,8 +129,12 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: wp(4),
   },
+  title: {
+    fontWeight: "bold",
+  },
   input: {
-    marginTop: hp(4),
+    // marginTop: hp(4),
+    marginBottom: hp(2),
     borderWidth: 1,
     borderColor: "#ddd",
     padding: wp(.5),

@@ -15,20 +15,22 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { toggleFavorite } from "../redux/favoritesSlice";
 
-export default function CustomRecipesScreen() {
+export default function CustomRecipesScreen(props) {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
-  const route = useRoute();
-  const { recipe } = route.params || {}; // Pass the  object as a parameter
-  console.log("recipe", recipe);
+  const recipe = props.route.params;
+
+  // const route = useRoute();
+  // const { recipe } = route.params || {}; // Pass the  object as a parameter
+  console.log("CSR->recipe", recipe);
 
   const favoriteRecipe = useSelector(
     (state) => state.favorites.favoriterecipes
   );
-  console.log("favoriteRecipe from custom", favoriteRecipe);
+  console.log("CSR->favoriteRecipe from custom", favoriteRecipe);
 
-  const isFavourite = favoriteRecipe.includes(recipe.idCategory); // Adjust this according to your recipe structure
+  const isFavourite = favoriteRecipe.includes(recipe.idFood); // Adjust this according to your recipe structure
 
   if (!recipe) {
     return (
@@ -83,10 +85,11 @@ export default function CustomRecipesScreen() {
 
       {/* Recipe Details */}
       <View style={styles.contentContainer} testID="contentContainer">
-        <Text style={styles.recipeTitle}>{recipe.title}</Text>
+        <Text style={styles.recipeTitle}>{recipe.recipeName}</Text>
         <View style={styles.sectionContainer}>
-          <Text style={styles.sectionTitle}>Content</Text>
-          <Text style={styles.contentText}>{recipe.description}</Text>
+          <Text style={styles.sectionTitle}>Description</Text>
+          <Text style={styles.contentText}>{recipe.recipeDescription}</Text>
+          
         </View>
       </View>
     </ScrollView>
